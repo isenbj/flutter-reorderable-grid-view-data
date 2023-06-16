@@ -77,7 +77,7 @@ class ReorderableEntity {
         originalOffset: originalOffset ?? this.originalOffset,
         updatedOffset: updatedOffset ?? this.updatedOffset,
         child: child ?? this.child,
-        data: data,
+        data: data ?? this.data,
         updatedOrderId: updatedOrderId ?? this.updatedOrderId,
         originalOrderId: originalOrderId ?? this.originalOrderId,
         isBuilding: isBuilding ?? this.isBuilding,
