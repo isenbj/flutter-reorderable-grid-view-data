@@ -148,6 +148,7 @@ class _ReorderableDraggableState extends State<ReorderableDraggable>
       return child;
     } else if (widget.enableLongPress) {
       return LongPressDraggable(
+        data: widget is Draggable ? widget.data : null,
         delay: widget.longPressDelay,
         onDragStarted: _handleDragStarted,
         onDragEnd: _handleDragEnd,
@@ -157,6 +158,7 @@ class _ReorderableDraggableState extends State<ReorderableDraggable>
       );
     } else {
       return Draggable(
+        data: widget is Draggable ? widget.data : null,
         onDragStarted: _handleDragStarted,
         onDragEnd: _handleDragEnd,
         feedback: feedback,
