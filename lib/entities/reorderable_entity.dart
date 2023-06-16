@@ -38,6 +38,8 @@ class ReorderableEntity {
   /// The [Offset] can already be known but this is still a flag to know, that [child] didn't exist before.
   final bool isNew;
 
+  final dynamic data;
+
   /// Is true, when this [child] only changed the position with another child.
   ///
   /// This is only true, when the changed position has nothing to do with
@@ -49,6 +51,7 @@ class ReorderableEntity {
     required this.originalOrderId,
     required this.updatedOrderId,
     required this.isBuilding,
+    required this.data,
     this.originalOffset = Offset.zero,
     this.updatedOffset = Offset.zero,
     this.size = Size.zero,
@@ -61,6 +64,7 @@ class ReorderableEntity {
     Offset? originalOffset,
     Offset? updatedOffset,
     Widget? child,
+    dynamic data,
     Size? size,
     int? originalOrderId,
     int? updatedOrderId,
@@ -73,6 +77,7 @@ class ReorderableEntity {
         originalOffset: originalOffset ?? this.originalOffset,
         updatedOffset: updatedOffset ?? this.updatedOffset,
         child: child ?? this.child,
+        data: data,
         updatedOrderId: updatedOrderId ?? this.updatedOrderId,
         originalOrderId: originalOrderId ?? this.originalOrderId,
         isBuilding: isBuilding ?? this.isBuilding,

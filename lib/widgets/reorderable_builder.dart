@@ -6,6 +6,8 @@ import 'package:flutter_reorderable_grid_view/widgets/animated/reorderable_anima
 import 'package:flutter_reorderable_grid_view/widgets/animated/reorderable_draggable.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_scrolling_listener.dart';
 
+import '../entities/gridview_entity.dart';
+
 typedef DraggableBuilder = Widget Function(
   List<Widget> children,
 );
@@ -18,7 +20,7 @@ typedef ReorderListCallback = void Function(List<OrderUpdateEntity>);
 /// because this can lead to an unexpected behavior.
 class ReorderableBuilder extends StatefulWidget {
   /// Updating [children] with some widgets to enable animations.
-  final List<Widget> children;
+  final List<GridviewEntity> children;
 
   /// Specify indices for [children] that should not change their position while dragging.
   ///
@@ -146,12 +148,13 @@ class _ReorderableBuilderState extends State<ReorderableBuilder>
 
     // adding all children for _childrenMap
     for (final child in widget.children) {
-      final key = child.key;
+      final key = child.child.key;
 
       if (key != null && !checkDuplicatedKeyList.contains(key)) {
         checkDuplicatedKeyList.add(key);
         _childrenMap[key] = ReorderableEntity(
-          child: child,
+          child: child.child,
+          data: child.data,
           originalOrderId: orderId,
           updatedOrderId: orderId,
           isBuilding: true,
@@ -686,7 +689,7 @@ class _ReorderableBuilderState extends State<ReorderableBuilder>
     final checkDuplicatedKeyList = <Key>[];
 
     for (final child in widget.children) {
-      final key = child.key;
+      final key = child.child.key;
 
       if (key != null && !checkDuplicatedKeyList.contains(key)) {
         checkDuplicatedKeyList.add(key);
@@ -701,7 +704,8 @@ class _ReorderableBuilderState extends State<ReorderableBuilder>
           final reorderableEntity = _childrenMap[key]!;
           final hasUpdatedOrder = reorderableEntity.originalOrderId != orderId;
           final updatedReorderableEntity = reorderableEntity.copyWith(
-            child: child,
+            child: child.child,
+            data: child.data,
             updatedOrderId: orderId,
             updatedOffset: _offsetMap[orderId],
             isBuilding: !_offsetMap.containsKey(orderId),
@@ -711,7 +715,8 @@ class _ReorderableBuilderState extends State<ReorderableBuilder>
           updatedChildrenMap[key] = updatedReorderableEntity;
         } else {
           updatedChildrenMap[key] = ReorderableEntity(
-            child: child,
+            child: child.child,
+            data: child.data,
             originalOrderId: orderId,
             updatedOrderId: orderId,
             isBuilding: false,
@@ -737,7 +742,7 @@ class _ReorderableBuilderState extends State<ReorderableBuilder>
     if (_childrenMap.length < widget.children.length) {
       var orderId = 0;
       for (final child in widget.children) {
-        final key = child.key;
+        final key = child.child.key;
         if (!_childrenMap.containsKey(key)) {
           return orderId;
         }
@@ -745,7 +750,7 @@ class _ReorderableBuilderState extends State<ReorderableBuilder>
       }
     } else if (_childrenMap.length > widget.children.length) {
       var orderId = 0;
-      final childrenKeys = widget.children.map((e) => e.key).toList();
+      final childrenKeys = widget.children.map((e) => e.child.key).toList();
       for (final key in _childrenMap.keys) {
         if (!childrenKeys.contains(key)) {
           return orderId;

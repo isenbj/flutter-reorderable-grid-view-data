@@ -148,7 +148,7 @@ class _ReorderableDraggableState extends State<ReorderableDraggable>
       return child;
     } else if (widget.enableLongPress) {
       return LongPressDraggable(
-        data: widget.reorderableEntity.child is Draggable ? (widget.reorderableEntity.child as Draggable).data : null,
+        data: widget.reorderableEntity.data,
         delay: widget.longPressDelay,
         onDragStarted: _handleDragStarted,
         onDragEnd: _handleDragEnd,
@@ -158,7 +158,7 @@ class _ReorderableDraggableState extends State<ReorderableDraggable>
       );
     } else {
       return Draggable(
-        data: widget.reorderableEntity.child is Draggable ? (widget.reorderableEntity.child as Draggable).data : null,
+        data: widget.reorderableEntity.data,
         onDragStarted: _handleDragStarted,
         onDragEnd: _handleDragEnd,
         feedback: feedback,
