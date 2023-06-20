@@ -148,6 +148,7 @@ class _ReorderableDraggableState extends State<ReorderableDraggable>
       return child;
     } else if (widget.enableLongPress) {
       return LongPressDraggable(
+        maxSimultaneousDrags: 1,
         data: widget.reorderableEntity.data,
         delay: widget.longPressDelay,
         onDragStarted: _handleDragStarted,
@@ -158,6 +159,7 @@ class _ReorderableDraggableState extends State<ReorderableDraggable>
       );
     } else {
       return Draggable(
+        maxSimultaneousDrags: 1,
         data: widget.reorderableEntity.data,
         onDragStarted: _handleDragStarted,
         onDragEnd: _handleDragEnd,
